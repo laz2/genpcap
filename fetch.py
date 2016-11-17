@@ -37,7 +37,7 @@ class FetchRequest_v2(Struct):
 
 class FetchRequest_v3(Struct):
     API_KEY = API_KEY
-    API_VERSION = 0
+    API_VERSION = 3
     SCHEMA = Schema(
         ('replica_id', Int32),
         ('max_wait_time', Int32),
@@ -55,17 +55,48 @@ class FetchRequest_v3(Struct):
 send(
     FetchRequest_v0(
         replica_id=-1,
-        max_wait_time=1000,
-        min_bytes=0,
+        max_wait_time=1,
+        min_bytes=5,
         topics=[('topic1', [(0, 0, 10000)])]
+    )
+)
+
+send(
+    FetchRequest_v0(
+        replica_id=-1,
+        max_wait_time=1,
+        min_bytes=5,
+        topics=[('unknown_topic', [(0, 0, 10000)])]
     )
 )
 
 send(
     FetchRequest_v1(
         replica_id=-1,
-        max_wait_time=1000,
-        min_bytes=0,
+        max_wait_time=1,
+        min_bytes=5,
+        topics=[
+            ('topic1', [(0, 0, 10000)])
+        ]
+    )
+)
+
+send(
+    FetchRequest_v1(
+        replica_id=-1,
+        max_wait_time=1,
+        min_bytes=5,
+        topics=[
+            ('unknown_topic', [(0, 0, 10000)])
+        ]
+    )
+)
+
+send(
+    FetchRequest_v2(
+        replica_id=-1,
+        max_wait_time=1,
+        min_bytes=5,
         topics=[
             ('topic1', [(0, 0, 10000)])
         ]
@@ -75,8 +106,20 @@ send(
 send(
     FetchRequest_v2(
         replica_id=-1,
-        max_wait_time=1000,
-        min_bytes=0,
+        max_wait_time=1,
+        min_bytes=5,
+        topics=[
+            ('unknown_topic', [(0, 0, 10000)])
+        ]
+    )
+)
+
+send(
+    FetchRequest_v3(
+        replica_id=-1,
+        max_wait_time=1,
+        min_bytes=5,
+        max_bytes=10000,
         topics=[
             ('topic1', [(0, 0, 10000)])
         ]
@@ -86,11 +129,11 @@ send(
 send(
     FetchRequest_v3(
         replica_id=-1,
-        max_wait_time=1000,
-        min_bytes=0,
-        max_bytes=10000,
+        max_wait_time=1,
+        min_bytes=5,
+        max_bytes=1000,
         topics=[
-            ('topic1', [(0, 0, 10000)])
+            ('unknown_topic', [(0, 0, 10000)])
         ]
     )
 )
