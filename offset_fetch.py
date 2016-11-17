@@ -28,7 +28,8 @@ send(
     OffsetFetchRequest_v0(
         group_id='group1',
         topics=[
-            ('topic1', [0])
+            ('topic1', [0]),
+            ('topic2', [0, 1])
         ]
     )
 )
@@ -37,7 +38,28 @@ send(
     OffsetFetchRequest_v0(
         group_id='group1',
         topics=[
-            ('topic1', [0])
+            ('topic1', [1]),
+            ('unknown_topic', [0])
+        ]
+    )
+)
+
+send(
+    OffsetFetchRequest_v1(
+        group_id='group1',
+        topics=[
+            ('topic1', [0]),
+            ('topic2', [0, 1])
+        ]
+    )
+)
+
+send(
+    OffsetFetchRequest_v1(
+        group_id='group1',
+        topics=[
+            ('topic1', [1]),
+            ('unknown_topic', [0])
         ]
     )
 )

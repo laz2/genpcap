@@ -37,13 +37,57 @@ class OffsetRequest_v1(Struct):
 send(
     OffsetRequest_v0(
         replica_id=-1,
-        topics=[('topic1', [(0, 0, 100)])]
+        topics=[
+            ('topic1', [
+                (0, 0, 100),
+            ]),
+            ('topic2', [
+                (0, 0, 100),
+                (1, 0, 100),
+            ])
+        ]
+    )
+)
+
+send(
+    OffsetRequest_v0(
+        replica_id=-1,
+        topics=[
+            ('topic1', [
+                (1, 0, 100),
+            ]),
+            ('unknown_topic', [
+                (0, 0, 100),
+            ])
+        ]
     )
 )
 
 send(
     OffsetRequest_v1(
         replica_id=-1,
-        topics=[('topic1', [(0, 0)])]
+        topics=[
+            ('topic1', [
+                (0, 0),
+            ]),
+            ('topic2', [
+                (0, 0),
+                (1, 0),
+            ])
+        ]
+    )
+)
+
+send(
+    OffsetRequest_v1(
+        replica_id=-1,
+        topics=[
+            ('topic1', [
+                (1, 0),
+            ]),
+            ('unknown_topic', [
+                (0, 0),
+            ])
+        ]
     )
 )
