@@ -1,5 +1,4 @@
 
-
 from kafka.protocol.struct import Struct
 from kafka.protocol.types import Array, Schema, String, Int32
 from util import send
