@@ -6,6 +6,7 @@ from util import send
 
 API_KEY = 11
 
+
 class JoinGroupRequest_v0(Struct):
     API_KEY = API_KEY
     API_VERSION = 0
