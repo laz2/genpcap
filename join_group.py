@@ -40,7 +40,7 @@ send(
     JoinGroupRequest_v0(
         group_id='group1',
         session_timeout=6000,
-        member_id='',
+        member_id='member_id',
         protocol_type='protocol',
         group_protocols=[
             ('protocol', b'metadata')
@@ -52,7 +52,7 @@ send(
         group_id='group1',
         session_timeout=6000,
         rebalance_timeout=1000,
-        member_id='',
+        member_id='member_id',
         protocol_type='protocol',
         group_protocols=[
             ('protocol', b'metadata')
