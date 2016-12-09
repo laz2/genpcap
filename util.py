@@ -12,7 +12,7 @@ PORT = 9092
 correlation_id = 0
 
 
-def send(request):
+def send(request, wait_response=True):
     global correlation_id
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -31,13 +31,15 @@ def send(request):
         s.send(size)
         s.send(message)
 
-        size = s.recv(4, socket.MSG_WAITALL)
-        size = Int32.decode(BytesIO(size))
-        s.recv(size, socket.MSG_WAITALL)
+        if wait_response:
+            size = s.recv(4, socket.MSG_WAITALL)
+            size = Int32.decode(BytesIO(size))
+            s.recv(size, socket.MSG_WAITALL)
 
 
-def send_with_response(request, response):
+def send_with_response(request, response=None):
     event = threading.Event()
+    need_response = response is not None
 
     def server_thread():
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as ss:
@@ -51,9 +53,10 @@ def send_with_response(request, response):
                 id = Int32.decode(BytesIO(cs.recv(4, socket.MSG_WAITALL)))
                 cs.recv(size - 4, socket.MSG_WAITALL)
 
-                message = b''.join([Int32.encode(id), response.encode()])
-                cs.send(Int32.encode(len(message)) + message)
+                if need_response:
+                    message = b''.join([Int32.encode(id), response.encode()])
+                    cs.send(Int32.encode(len(message)) + message)
 
     threading.Thread(target=server_thread).start()
     event.wait()
-    send(request)
+    send(request, wait_response=need_response)
