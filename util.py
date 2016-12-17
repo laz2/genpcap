@@ -1,6 +1,7 @@
 
 import socket
 import threading
+import time
 
 from io import BytesIO
 
@@ -15,8 +16,7 @@ correlation_id = 0
 def send(request, wait_response=True):
     global correlation_id
 
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    with s:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect(('127.0.0.1', PORT))
 
         header = RequestHeader(
@@ -43,6 +43,7 @@ def send_with_response(request, response=None):
 
     def server_thread():
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as ss:
+            ss.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             ss.bind(('127.0.0.1', PORT))
             ss.listen(1)
             event.set()
@@ -56,7 +57,10 @@ def send_with_response(request, response=None):
                 if need_response:
                     message = b''.join([Int32.encode(id), response.encode()])
                     cs.send(Int32.encode(len(message)) + message)
+        event.set()
 
     threading.Thread(target=server_thread).start()
     event.wait()
+    event.clear()
     send(request, wait_response=need_response)
+    event.wait()

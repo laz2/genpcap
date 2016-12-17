@@ -36,12 +36,28 @@ class JoinGroupRequest_v1(Struct):
     )
 
 
+class ConsumerProtocolMemberMetadata(Struct):
+    SCHEMA = Schema(
+        ('version', Int16),
+        ('subscription', Array(String('utf-8'))),
+        ('user_data', Bytes))
+
+
+class ConsumerProtocolMemberAssignment(Struct):
+    SCHEMA = Schema(
+        ('version', Int16),
+        ('assignment', Array(
+            ('topic', String('utf-8')),
+            ('partitions', Array(Int32)))),
+        ('user_data', Bytes))
+
+
 send(
     JoinGroupRequest_v0(
         group_id='group1',
         session_timeout=6000,
         member_id='member_id',
-        protocol_type='protocol',
+        protocol_type='consumer',
         group_protocols=[
             ('protocol', b'metadata')
         ]

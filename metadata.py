@@ -27,12 +27,13 @@ class MetadataRequest_v2(Struct):
     SCHEMA = MetadataRequest_v1.SCHEMA
 
 
-send(MetadataRequest_v0(topics=[]))
-send(MetadataRequest_v0(topics=['topic1', 'topic2']))
-send(MetadataRequest_v0(topics=['topic1', 'unknown_topic']))
+if __name__ == '__main__':
+    send(MetadataRequest_v0(topics=[]))
+    send(MetadataRequest_v0(topics=['topic1', 'topic2']))
+    send(MetadataRequest_v0(topics=['topic1', 'unknown_topic']))
 
-send(MetadataRequest_v1(topics=[]))
-send(MetadataRequest_v1(topics=['topic1', 'topic2']))
+    send(MetadataRequest_v1(topics=[]))
+    send(MetadataRequest_v1(topics=['topic1', 'topic2']))
 
-send(MetadataRequest_v2(topics=[]))
-send(MetadataRequest_v2(topics=['topic1', 'topic2']))
+    send(MetadataRequest_v2(topics=[]))
+    send(MetadataRequest_v2(topics=['topic1', 'topic2']))
